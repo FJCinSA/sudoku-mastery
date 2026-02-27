@@ -571,7 +571,7 @@ function tryNS1(n){
   }else{
     SND.err();recAttempt(1,false);
     el.classList.add('wrong');setTimeout(()=>el.classList.remove('wrong'),400);
-    showFb('fb1','err',`✗ Not ${n}. Look at what's already in the row, column, and box  -  eliminate them one by one.`);
+    showFb('fb1','err',`(x) Not ${n}. Look at what's already in the row, column, and box  -  eliminate them one by one.`);
   }
 }
 
@@ -631,7 +631,7 @@ function tryHS2(n){
     else{showFb('fb2','ok','✓ All three hidden singles found!');setTimeout(()=>complete(2),400);}
   }else{
     SND.err();recAttempt(2,false);
-    showFb('fb2','err',`✗ Not ${n}. ${t.hint}`);
+    showFb('fb2','err',`(x) Not ${n}. ${t.hint}`);
   }
 }
 
@@ -676,7 +676,7 @@ function tryNP3(n){
     setTimeout(()=>complete(3),400);
   }else{
     SND.err();recAttempt(3,false);
-    showFb('fb3','err',`✗ ${n} is not in the pair. Look at R8C4 and R8C6  -  they have only two candidates each, and they match.`);
+    showFb('fb3','err',`(x) ${n} is not in the pair. Look at R8C4 and R8C6  -  they have only two candidates each, and they match.`);
   }
 }
 
