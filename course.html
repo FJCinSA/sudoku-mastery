@@ -244,7 +244,7 @@
   </div>
   <div class="ch-body">
     <div class="board-wrap">
-      <div class="board-label">Box 1 — digit 3 confined to Row 2</div>
+      <div class="board-label">Box 1 — digit 2 confined to Column 3</div>
       <div class="board" id="board4"></div>
     </div>
     <div class="panel">
@@ -255,18 +255,18 @@
         <div class="insight"><strong>Think of it as a lane lock:</strong> the digit is trapped in one lane of the box. That lane is reserved — clear it outside.</div>
       </div>
       <div class="card">
-        <div class="card-title">🔍 Demo: Digit 3 in Box 1</div>
+        <div class="card-title">🔍 Demo: Digit 2 in Box 1</div>
         <ul class="steps">
-          <li>Look at Box 1 (top-left). Where can digit 3 go?</li>
-          <li>Row 1 of box: all three cells are blocked for 3</li>
-          <li>Row 3 of box: blocked by column and box constraints</li>
-          <li>Only <strong>Row 2</strong> cells in Box 1 can hold 3 → confined</li>
-          <li>Therefore: <strong>eliminate 3 from Row 2 outside Box 1</strong></li>
+          <li>Look at Box 1 (top-left). Where can digit 2 go?</li>
+          <li>R1C1, R1C2, R1C3: Row 1 is blocked — 2 is already in Row 1</li>
+          <li>R2C1, R2C2 are given digits (6 and 8) — not empty</li>
+          <li>Only <strong>R2C3 and R3C3</strong> (Column 3) can hold 2 in Box 1 → confined to col 3</li>
+          <li>Therefore: <strong>eliminate 2 from Column 3 outside Box 1</strong> — R8C3 loses it</li>
         </ul>
       </div>
       <div class="ex-card">
         <div class="ex-title">✏️ Your Turn</div>
-        <div class="ex-prompt" id="ex4p">Digit 3 in Box 1 is confined to Row 2 (orange). Tap each <strong>red elimination cell</strong> in Row 2 outside Box 1.</div>
+        <div class="ex-prompt" id="ex4p">Digit 2 in Box 1 is confined to Column 3 (orange). Tap the <strong>red elimination cell</strong> in Col 3 outside Box 1.</div>
         <div class="fb" id="fb4"></div>
         <div class="ex-prog" id="prog4"></div>
       </div>
