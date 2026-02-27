@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sudoku Mastery — Interactive Course</title>
+<meta name="description" content="Learn six Sudoku solving techniques interactively — from Naked Singles to X-Wing — with an AI grandmaster coach.">
 <link rel="stylesheet" href="shared.css">
 <link rel="stylesheet" href="course.css">
 </head>
@@ -14,9 +15,13 @@
   <a href="index.html">← Sudoku Mastery</a>
   <a href="https://fjcinsa.github.io/sudoku-tutor/" target="_blank">Play Sudoku Tutor ↗</a>
 </div>
+
+<!-- Progress strip -->
+<div class="progress-strip"><div class="progress-fill" id="prog-fill"></div></div>
+
 <div class="hdr">
   <div class="hdr-title">Sudoku Mastery</div>
-  <div class="hdr-sub">Sudoku Mastery · Six Techniques · From Stuck to Expert</div>
+  <div class="hdr-sub">Six Techniques · From Stuck to Expert</div>
 </div>
 
 <div class="nav" id="nav"></div>
@@ -32,7 +37,7 @@
   </div>
   <div class="ch-body">
     <div class="board-wrap">
-      <div class="board-label" id="lbl0">Tap each step to see it on this puzzle →</div>
+      <div class="board-label" id="lbl0">Tap each step to see it live →</div>
       <div class="board" id="board0"></div>
     </div>
     <div class="panel">
@@ -45,11 +50,11 @@
       <div class="card">
         <div class="card-title">📋 Five Steps — tap each one</div>
         <div class="walkthrough" id="wk0">
-          <div class="wk-step" onclick="wk(0)"><span class="wk-n">1</span><span><strong>Count the clues first.</strong> Scan the number pad at the bottom of the game — which digits appear most often on the board? Digits with 7 or 8 placements have fewer empty slots and create the strongest constraints. Always start with the most-placed digit.</span></div>
-          <div class="wk-step" onclick="wk(1)"><span class="wk-n">2</span><span><strong>Spot near-complete rows.</strong> Row 2 has 8 of 9 digits already filled — only R2C2 is empty. Count what is missing: the row has 1, 5, 2, 6, 4, 9, 3 — only <strong>7</strong> and <strong>8</strong> unplaced. Now check column 2 and the top-left box: one of those eliminates the other. That is your first free placement.</span></div>
-          <div class="wk-step" onclick="wk(2)"><span class="wk-n">3</span><span><strong>Harvest Naked Singles.</strong> A naked single is a cell where the row, column, and box together block 8 digits — only one remains. On this puzzle, <strong>R4C8 = 5</strong>, <strong>R6C5 = 2</strong>, and <strong>R7C6 = 7</strong> are all naked singles. Place these before doing anything harder.</span></div>
-          <div class="wk-step" onclick="wk(3)"><span class="wk-n">4</span><span><strong>Use Auto Notes when naked singles run out.</strong> Tap the Auto Notes button — this fills every empty cell with all valid candidates at once. Then scan for any cell that shows only <em>one small digit</em>. That is a naked single hidden in plain sight. Place all of them before moving on.</span></div>
-          <div class="wk-step" onclick="wk(4)"><span class="wk-n">5</span><span><strong>Shift your perspective — ask "where?"</strong> Once naked singles are exhausted, stop asking "what fits in this cell?" and instead ask <em>"where can this digit go in this row, column, or box?"</em> If only one cell in a unit can hold a digit, it goes there — even if that cell has other candidates. This is how Hidden Singles are found, and it unlocks the whole board.</span></div>
+          <div class="wk-step" onclick="wk(0)"><span class="wk-n">1</span><span><strong>Count the clues first.</strong> Which digits appear most often? Digits with 7 or 8 placements have fewer empty slots. Start with the most-placed digit.</span></div>
+          <div class="wk-step" onclick="wk(1)"><span class="wk-n">2</span><span><strong>Spot near-complete rows.</strong> Row 2 has 8 of 9 digits filled. Count the missing one — cross-check with its column and box. Your first free placement.</span></div>
+          <div class="wk-step" onclick="wk(2)"><span class="wk-n">3</span><span><strong>Harvest Naked Singles.</strong> Cells where row, column, and box block 8 digits. R4C8=5, R6C5=2, R7C6=7 fall immediately.</span></div>
+          <div class="wk-step" onclick="wk(3)"><span class="wk-n">4</span><span><strong>Pencil in candidates.</strong> Fill all empty cells with valid numbers. Any cell showing one candidate is a naked single — place it.</span></div>
+          <div class="wk-step" onclick="wk(4)"><span class="wk-n">5</span><span><strong>Shift to "where?" thinking.</strong> Stop asking "what fits here?" and ask <em>"where can this digit go in this box?"</em> One option = hidden single. This is the key that unlocks Medium puzzles.</span></div>
         </div>
       </div>
       <div class="badge" id="badge0">
@@ -87,7 +92,7 @@
         <div class="card-title">① What is a Naked Single?</div>
         <p>A cell where the <strong>row, column, and 3×3 box</strong> together eliminate 8 of the 9 digits — leaving exactly one candidate.</p>
         <p>"Naked" because the answer is completely exposed. No deduction needed — pure elimination.</p>
-        <div class="insight"><strong>How to find them:</strong> look for nearly-complete rows or columns. If 8 digits are placed around a cell, its answer is immediate.</div>
+        <div class="insight"><strong>How to find them:</strong> look for nearly-complete rows or columns. If 8 digits are placed around a cell, the answer is immediate.</div>
       </div>
       <div class="card">
         <div class="card-title">🔍 Demo: Why R5C5 = 5</div>
@@ -95,7 +100,7 @@
           <li>Row 5 already has: <strong>4, 8, 3, 1</strong></li>
           <li>Column 5 already has: <strong>7, 9, 6, 2, 8, 1</strong></li>
           <li>Box 5 (centre) already has: <strong>9, 8, 4, 2</strong></li>
-          <li>Together they block digits: <strong>1,2,3,4,6,7,8,9</strong></li>
+          <li>Together they block: <strong>1,2,3,4,6,7,8,9</strong></li>
           <li>Only <strong>5</strong> remains → place it immediately</li>
         </ul>
       </div>
@@ -133,7 +138,7 @@
   </div>
   <div class="ch-body">
     <div class="board-wrap">
-      <div class="board-label">Box 3 (top-right) — find digit 8</div>
+      <div class="board-label">Box 3 (top-right) — find hidden singles</div>
       <div class="board" id="board2"></div>
     </div>
     <div class="panel">
@@ -141,14 +146,14 @@
         <div class="card-title">② What is a Hidden Single?</div>
         <p>A digit that can only fit in <strong>one cell</strong> within a row, column, or box — even though that cell has other candidates too.</p>
         <p>"Hidden" because the solution is concealed among other candidates. You find it by asking: <em>"where can this digit go?"</em></p>
-        <div class="insight"><strong>The key shift:</strong> stop looking at cells and asking what fits. Start looking at each missing digit and asking where in the unit it belongs.</div>
+        <div class="insight"><strong>The key shift:</strong> stop looking at cells asking what fits. Start looking at each missing digit and asking where in the unit it belongs.</div>
       </div>
       <div class="card">
         <div class="card-title">🔍 Demo: Where does 8 go in Box 3?</div>
         <ul class="steps">
           <li>Box 3 (top-right) has three empty cells: <strong>R1C8, R1C9, R2C7</strong></li>
           <li>Digit 8 is missing from Box 3 — it must go somewhere</li>
-          <li>R1C9: column 9 already has 8 (via other rows) → <strong>blocked</strong></li>
+          <li>R1C9: column 9 already has 8 → <strong>blocked</strong></li>
           <li>R2C7: row 2 already has 8 → <strong>blocked</strong></li>
           <li>Only <strong>R1C8</strong> can hold 8 → Hidden Single!</li>
         </ul>
@@ -162,7 +167,7 @@
       <div class="badge" id="badge2">
         <div class="badge-icon">②</div>
         <div class="badge-title">Hidden Singles — Complete</div>
-        <div class="badge-text">Naked Singles + Hidden Singles solve most Easy and many Medium puzzles entirely. You have the foundation.</div>
+        <div class="badge-text">Naked + Hidden Singles solve most Easy and many Medium puzzles entirely. You have the foundation.</div>
       </div>
     </div>
   </div>
@@ -193,8 +198,8 @@
       <div class="card">
         <div class="card-title">③ What is a Naked Pair?</div>
         <p>Two cells in the same unit that <strong>both contain exactly the same two candidates</strong>. Those digits are locked to those two cells.</p>
-        <p>Because one cell takes digit A and the other takes digit B, <strong>no other cell in that unit can hold either</strong> — eliminate them everywhere else.</p>
-        <div class="insight"><strong>Why it works:</strong> you don't know which cell gets which digit yet — but it doesn't matter. Both digits are accounted for within those two cells.</div>
+        <p>Because one cell takes digit A and the other takes digit B, <strong>no other cell in that unit can hold either</strong> — eliminate both everywhere else.</p>
+        <div class="insight"><strong>Why it works:</strong> you don't know which cell gets which digit yet — but it doesn't matter. Both are accounted for within those two cells.</div>
       </div>
       <div class="card">
         <div class="card-title">🔍 Demo: Row 8, Columns 4 &amp; 6</div>
@@ -203,12 +208,12 @@
           <li><strong>R8C4</strong> has candidates {7, 9} — only two, nothing else</li>
           <li><strong>R8C6</strong> has candidates {7, 9} — same two, nothing else</li>
           <li>This is a naked pair — 7 and 9 are locked to these cells</li>
-          <li>Any other cell in Row 8 that contains 7 or 9 can have them <strong>crossed out</strong></li>
+          <li>Any other cell in Row 8 with 7 or 9 can have them <strong>crossed out</strong></li>
         </ul>
       </div>
       <div class="ex-card">
         <div class="ex-title">✏️ Your Turn</div>
-        <div class="ex-prompt">R8C4 and R8C6 form a naked pair {7, 9}. Which two digits are locked? Tap one of them below to confirm.</div>
+        <div class="ex-prompt">Tap <strong>both blue pair cells</strong> in Row 8 to confirm you see them, then tap one of the locked digits on the numpad.</div>
         <div class="numpad" id="np3"></div>
         <div class="fb" id="fb3"></div>
       </div>
@@ -239,15 +244,15 @@
   </div>
   <div class="ch-body">
     <div class="board-wrap">
-      <div class="board-label">Box 1 — digit 3 is confined to Row 2</div>
+      <div class="board-label">Box 1 — digit 3 confined to Row 2</div>
       <div class="board" id="board4"></div>
     </div>
     <div class="panel">
       <div class="card">
         <div class="card-title">④ What is a Pointing Pair?</div>
         <p>When a digit within a box can only fit in <strong>one row or column</strong> of that box, it is "pointing" along that line.</p>
-        <p>Because the digit <em>must</em> land in that row/column within the box, it <strong>eliminates itself from the rest of that row/column</strong> outside the box.</p>
-        <div class="insight"><strong>Think of it as a lane lock:</strong> the digit is trapped in one lane (row or column) of the box. That lane is reserved — clear it outside.</div>
+        <p>Because the digit <em>must</em> land in that row/column inside the box, it <strong>eliminates itself from the rest of that row/column</strong> outside the box.</p>
+        <div class="insight"><strong>Think of it as a lane lock:</strong> the digit is trapped in one lane of the box. That lane is reserved — clear it outside.</div>
       </div>
       <div class="card">
         <div class="card-title">🔍 Demo: Digit 3 in Box 1</div>
@@ -255,19 +260,20 @@
           <li>Look at Box 1 (top-left). Where can digit 3 go?</li>
           <li>Row 1 of box: all three cells are blocked for 3</li>
           <li>Row 3 of box: blocked by column and box constraints</li>
-          <li>Only cells in <strong>Row 2</strong> of Box 1 can hold 3 → it is confined</li>
-          <li>Therefore: <strong>eliminate 3 from Row 2 outside Box 1</strong> — tap those red cells</li>
+          <li>Only <strong>Row 2</strong> cells in Box 1 can hold 3 → confined</li>
+          <li>Therefore: <strong>eliminate 3 from Row 2 outside Box 1</strong></li>
         </ul>
       </div>
       <div class="ex-card">
         <div class="ex-title">✏️ Your Turn</div>
-        <div class="ex-prompt" id="ex4p">Digit 3 in Box 1 is confined to Row 2 (orange cells). Tap any <strong>red cell</strong> in Row 2 outside Box 1 to eliminate 3 from it.</div>
+        <div class="ex-prompt" id="ex4p">Digit 3 in Box 1 is confined to Row 2 (orange). Tap each <strong>red elimination cell</strong> in Row 2 outside Box 1.</div>
         <div class="fb" id="fb4"></div>
+        <div class="ex-prog" id="prog4"></div>
       </div>
       <div class="badge" id="badge4">
         <div class="badge-icon">④</div>
         <div class="badge-title">Pointing Pairs — Complete</div>
-        <div class="badge-text">Box-line reduction is one of the most powerful intermediate tools. Combined with naked pairs, it clears the path to the solution.</div>
+        <div class="badge-text">Box-line reduction is one of the most powerful intermediate tools. It clears the path to the solution.</div>
       </div>
     </div>
   </div>
@@ -298,22 +304,22 @@
       <div class="card">
         <div class="card-title">⑤ What is an X-Wing?</div>
         <p>When a digit appears as a candidate in <strong>exactly two cells of each of two rows</strong>, and those cells fall in the <strong>same two columns</strong>, you have an X-Wing.</p>
-        <p>The four cells form a rectangle. One diagonal holds the solution — you don't know which — but either way, those <strong>two columns are consumed</strong> for that digit.</p>
-        <div class="insight"><strong>The elimination:</strong> every other cell in those two columns that contains the digit can have it crossed out. The columns are already claimed.</div>
+        <p>The four cells form a rectangle. One diagonal holds the solution — but either way, those <strong>two columns are consumed</strong> for that digit.</p>
+        <div class="insight"><strong>The elimination:</strong> every other cell in those two columns containing the digit can be crossed out. The columns are claimed.</div>
       </div>
       <div class="card">
         <div class="card-title">🔍 Demo: Digit 7, Rows 2 &amp; 6</div>
         <ul class="steps">
-          <li>Fill candidates. Look at digit 7 in Row 2 — it fits only in <strong>Col 4</strong> and <strong>Col 8</strong></li>
-          <li>Now look at Row 6 — digit 7 also fits only in <strong>Col 4</strong> and <strong>Col 8</strong></li>
-          <li>Same two columns in two rows → <strong>X-Wing pattern confirmed</strong></li>
-          <li>The four corner cells (purple) form the rectangle</li>
-          <li>Eliminate 7 from <strong>all other cells in Col 4 and Col 8</strong> — tap the red cells</li>
+          <li>Fill candidates. Digit 7 in Row 2 fits only <strong>Col 4</strong> and <strong>Col 8</strong></li>
+          <li>Digit 7 in Row 6 also fits only <strong>Col 4</strong> and <strong>Col 8</strong></li>
+          <li>Same two columns, two rows → <strong>X-Wing confirmed</strong></li>
+          <li>The four corners (purple) form the rectangle</li>
+          <li>Eliminate 7 from <strong>all other cells in Col 4 and Col 8</strong></li>
         </ul>
       </div>
       <div class="ex-card">
         <div class="ex-title">✏️ Your Turn</div>
-        <div class="ex-prompt">The X-Wing corners are shown in purple. Tap <strong>two red elimination cells</strong> to confirm which cells in Cols 4 &amp; 8 lose digit 7.</div>
+        <div class="ex-prompt">X-Wing corners are in purple. Tap each <strong>red cell</strong> in Cols 4 &amp; 8 to confirm the eliminations.</div>
         <div class="fb" id="fb5"></div>
         <div class="ex-prog" id="prog5"></div>
       </div>
