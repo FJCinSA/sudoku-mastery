@@ -17,9 +17,9 @@ const P1 = [
 ];
 const NS1 = [{r:4,c:4,v:5},{r:6,c:5,v:7},{r:6,c:8,v:4},{r:7,c:7,v:3}];
 const P2 = [
-  [1,2,3,4,5,6,7,0,0],[4,5,6,7,8,9,0,1,2],[7,8,9,1,2,3,4,5,6],
-  [2,3,4,5,6,7,8,9,1],[5,6,7,8,9,1,2,3,4],[8,9,1,2,3,4,5,6,7],
-  [3,4,5,6,7,8,9,1,2],[6,7,8,9,1,2,3,4,5],[9,1,2,3,4,5,6,7,8],
+  [1,2,3,4,5,6,7,0,0],[4,5,6,7,8,9,1,2,0],[7,8,9,1,2,3,4,5,6],
+  [2,1,4,3,6,5,8,9,7],[3,6,5,8,9,7,2,1,4],[8,9,7,2,1,4,3,6,5],
+  [5,3,1,6,4,2,9,7,8],[6,4,2,9,7,8,5,3,1],[9,7,8,5,3,1,6,4,2],
 ];
 const P3 = [
   [0,0,0,2,6,0,7,0,1],[6,8,0,0,7,0,0,9,0],[1,9,0,0,0,4,5,0,0],
@@ -37,7 +37,7 @@ const P5 = [
 const TECH = ['Game Plan','Naked Singles','Hidden Singles','Naked Pairs','Pointing Pairs','X-Wing'];
 const TECH_DESC = [
   'The expert checklist: how to read any new puzzle',
-  'Cells where only one digit fits — pure elimination',
+  'Cells where only one digit fits  -  pure elimination',
   'Digits that can only go in one cell within a unit',
   'Two cells, same two candidates, both locked',
   'A digit confined to one row/col within a box',
@@ -105,7 +105,7 @@ function buildPerfSummary() {
     if (!ch.sessions) return null;
     return `${TECH[i]}: ${ch.completed?'(done)':'in progress'}, ${ch.attempts} attempts, ${ch.errors} errors${acc!==null?`, ${acc}% accuracy`:''}${ch.hints?' '+ch.hints+' hints':''}${mins?' ~'+mins+'min':''}`;
   }).filter(Boolean);
-  return lines.length ? lines.join('\n') : 'Brand new learner — no history yet.';
+  return lines.length ? lines.join('\n') : 'Brand new learner  -  no history yet.';
 }
 
 // ── AUDIO ────────────────────────────────────────────────────────────
@@ -389,7 +389,7 @@ async function sendMessage(text){
     if(chatHistory.length>20) chatHistory=chatHistory.slice(-18);
   } catch(err) {
     typingEl.remove();
-    const errMsg="Connection issue — make sure you're online. Your question was good though, try again.";
+    const errMsg="Connection issue  -  make sure you're online. Your question was good though, try again.";
     appendMsg('coach',errMsg);
     chatHistory.push({role:'assistant',content:errMsg});
   }
@@ -493,16 +493,16 @@ function wk(step){
   const lbl=document.getElementById('lbl0');
   if(step===0){
     for(let r=0;r<9;r++)for(let c=0;c<9;c++)if(P0[r][c])document.getElementById(`b0r${r}c${c}`).classList.add('step-hi');
-    if(lbl)lbl.textContent='Step 1 — count clues: which digits appear most?';
+    if(lbl)lbl.textContent='Step 1  -  count clues: which digits appear most?';
   }else if(step===1){
     for(let c=0;c<9;c++){const el=document.getElementById(`b0r1c${c}`);if(P0[1][c])el.classList.add('step-hi');else{el.className='cell target';el.innerHTML=`<span style="font-size:.55rem;color:var(--gold)">?</span>`;}}
-    if(lbl)lbl.textContent='Step 2 — Row 2 has 8 digits placed, one slot empty';
+    if(lbl)lbl.textContent='Step 2  -  Row 2 has 8 digits placed, one slot empty';
   }else if(step===2){
     [[3,7,5],[5,4,2],[6,5,7]].forEach(([r,c,v])=>{
       for(let i=0;i<9;i++){const er=document.getElementById(`b0r${r}c${i}`);const ec=document.getElementById(`b0r${i}c${c}`);if(i!==c&&er)er.classList.add('hl-row');if(i!==r&&ec)ec.classList.add('hl-col');}
       const el=document.getElementById(`b0r${r}c${c}`);el.className='cell correct';el.textContent=v;
     });
-    if(lbl)lbl.textContent='Step 3 — three naked singles drop: R4C8=5, R6C5=2, R7C6=7';
+    if(lbl)lbl.textContent='Step 3  -  three naked singles drop: R4C8=5, R6C5=2, R7C6=7';
   }else if(step===3||step===4){
     for(let r=0;r<9;r++)for(let c=0;c<9;c++)if(!P0[r][c]){
       const cs=cands(P0,r,c);const el=document.getElementById(`b0r${r}c${c}`);
@@ -511,9 +511,9 @@ function wk(step){
     }
     if(step===4){
       for(let r=0;r<3;r++)for(let c=0;c<3;c++)document.getElementById(`b0r${r}c${c}`).classList.add('step-hi');
-      if(lbl)lbl.textContent='Step 5 — ask "where?" in each box: hidden singles appear';
+      if(lbl)lbl.textContent='Step 5  -  ask "where?" in each box: hidden singles appear';
       complete(0);
-    }else{if(lbl)lbl.textContent='Step 4 — pencil marks reveal cells with one candidate';}
+    }else{if(lbl)lbl.textContent='Step 4  -  pencil marks reveal cells with one candidate';}
   }
 }
 
@@ -531,7 +531,7 @@ function buildB1(){
   }
   mkNumpad('np1',tryNS1);
   const p=document.getElementById('prog1');if(p)p.textContent='0 of 4 naked singles placed';
-  const ep=document.getElementById('ex1p');if(ep)ep.innerHTML='Four gold cells are naked singles. <strong>Tap one</strong>, then tap the digit that belongs there. Keyboard 1–9 works too.';
+  const ep=document.getElementById('ex1p');if(ep)ep.innerHTML='Four gold cells are naked singles. <strong>Tap one</strong>, then tap the digit that belongs there. Keyboard 1 - 9 works too.';
 }
 function selNS1(r,c){
   if(document.getElementById(`b1r${r}c${c}`).classList.contains('correct'))return;
@@ -578,9 +578,9 @@ function tryNS1(n){
 // ── CH2 — HIDDEN SINGLES ─────────────────────────────────────────────
 
 const HS2=[
-  {r:0,c:7,v:8,prompt:'Where in <strong>Box 3</strong> (top-right) can digit <strong>8</strong> go?',hint:'Digit 8 exists in the rows and columns of every other empty cell in Box 3 — only R1C8 is clear.'},
-  {r:0,c:8,v:9,prompt:'Now find digit <strong>9</strong> — where must it go in Box 3?',hint:'R1C8 is taken. Check each remaining empty cell in Box 3 against its row and column for digit 9.'},
-  {r:1,c:6,v:3,prompt:'Last one: digit <strong>3</strong> — only one cell in Box 3 can hold it.',hint:'Digit 3 appears in rows or columns blocking every other empty cell. Only R2C7 survives.'},
+  {r:0,c:7,v:8,prompt:'Where in <strong>Box 3</strong> (top-right) can digit <strong>8</strong> go? Only one cell is possible.',hint:'Digit 8 exists in the rows and columns of every other empty cell in Box 3 - only R1C8 is clear.'},
+  {r:0,c:8,v:9,prompt:'Now find digit <strong>9</strong> - where must it go in Box 3?',hint:'Check each remaining empty cell. Digit 9 is blocked everywhere except R1C9.'},
+  {r:1,c:8,v:3,prompt:'Last one: digit <strong>3</strong> - only one cell in Box 3 can hold it.',hint:'Digit 3 appears in rows or columns blocking every other empty cell. Only R2C9 is clear.'},
 ];
 let hs2idx=0,hs2sel=-1;
 const P2live=P2.map(r=>[...r]);
@@ -602,7 +602,7 @@ function buildB2(){
 }
 function renderHS2(){
   const t=HS2[hs2idx];if(!t)return;
-  document.getElementById('ex2p').innerHTML=t.prompt+' — tap the gold cell, then confirm with the numpad.';
+  document.getElementById('ex2p').innerHTML=t.prompt+'  -  tap the gold cell, then confirm with the numpad.';
   document.getElementById('fb2').className='fb';
   HS2.forEach((tg,i)=>{
     const el=document.getElementById(`b2r${tg.r}c${tg.c}`);if(!el||P2live[tg.r][tg.c])return;
@@ -610,7 +610,7 @@ function renderHS2(){
   });
 }
 function selHS2(i){
-  if(hs2idx!==i){showFb('fb2','err','Follow the prompt — find the current digit first.');SND.err();return;}
+  if(hs2idx!==i){showFb('fb2','err','Follow the prompt  -  find the current digit first.');SND.err();return;}
   SND.tap();hs2sel=i;const t=HS2[i];
   const el=document.getElementById(`b2r${t.r}c${t.c}`);el.className='cell target sel';
   for(let r=0;r<3;r++)for(let c=6;c<9;c++){const b=document.getElementById(`b2r${r}c${c}`);if(b&&!b.classList.contains('correct'))b.classList.add('step-hi');}
@@ -628,7 +628,7 @@ function tryHS2(n){
     document.querySelectorAll('#board2 .cell').forEach(c=>c.classList.remove('hl-row','hl-col','step-hi','sel'));
     hs2idx++;hs2sel=-1;
     if(hs2idx<HS2.length){showFb('fb2','ok',`(done) Digit ${n} placed  -  find the next hidden single.`);renderHS2();}
-    else{showFb('fb2','ok','✓ All three hidden singles found!');setTimeout(()=>complete(2),400);}
+    else{showFb('fb2','ok','(ok) All three hidden singles found!');setTimeout(()=>complete(2),400);}
   }else{
     SND.err();recAttempt(2,false);
     showFb('fb2','err',`(x) Not ${n}. ${t.hint}`);
@@ -657,14 +657,14 @@ function buildB3(){
     brd.appendChild(div);
   }
   mkNumpad('np3',tryNP3,[7,9,2,5,3,4]);
-  document.getElementById('ex3p').innerHTML='Two cells in Row 8 share exactly the same two candidates — the naked pair. <strong>Tap both blue cells</strong> to confirm you see them, then tap one of the locked digits.';
+  document.getElementById('ex3p').innerHTML='Two cells in Row 8 share exactly the same two candidates  -  the naked pair. <strong>Tap both blue cells</strong> to confirm you see them, then tap one of the locked digits.';
   document.getElementById('fb3').className='fb';
 }
 function tapPair3(c){
   if(np3phase>0)return;SND.tap();np3tapped.add(c);
   document.getElementById(`b3r7c${c}`).classList.add('sel');
-  if(np3tapped.size===2){np3phase=1;showFb('fb3','ok','Both pair cells selected ✓ — now tap one of the two locked digits.');document.getElementById('ex3p').innerHTML='R8C4 and R8C6 each hold exactly {7,9} — same pair, exclusively. <strong>Tap 7 or 9</strong> to confirm the lock.';}
-  else showFb('fb3','ok','First cell confirmed ✓ — now tap the second blue cell.');
+  if(np3tapped.size===2){np3phase=1;showFb('fb3','ok','Both pair cells selected (ok)  -  now tap one of the two locked digits.');document.getElementById('ex3p').innerHTML='R8C4 and R8C6 each hold exactly {7,9}  -  same pair, exclusively. <strong>Tap 7 or 9</strong> to confirm the lock.';}
+  else showFb('fb3','ok','First cell confirmed (ok)  -  now tap the second blue cell.');
 }
 function tryNP3(n){
   if(np3phase===0){showFb('fb3','err','First tap both blue pair cells on the board.');SND.err();recAttempt(3,false);return;}
