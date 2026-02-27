@@ -687,16 +687,21 @@ let pp4hits=0;const PP4E=[];
 function buildB4(){
   const brd=document.getElementById('board4');if(!brd)return;
   brd.innerHTML='';pp4hits=0;PP4E.length=0;
+  // Pointing pair: digit 2 in Box 1 is confined to column 3 (c===2)
+  // Pointing cells: R2C3 {2,5} and R3C3 {2,7}
+  // Elimination cell: R8C3 — loses candidate 2
   for(let r=0;r<9;r++)for(let c=0;c<9;c++){
     const v=P3[r][c];const div=document.createElement('div');div.id=`b4r${r}c${c}`;
-    const inB1=r<3&&c<3;const cs=cands(P3,r,c);const isOut=r===1&&c>=3;
+    const inB1=r<3&&c<3;const cs=cands(P3,r,c);
+    const isPointer=inB1&&c===2&&cs.has(2);       // R2C3 and R3C3
+    const isElim=r>=3&&c===2&&!v&&cs.has(2);       // R8C3 (and any other col-3 cells outside box 1 with cand 2)
     if(v){div.className='cell given'+(inB1?' step-hi':'');div.textContent=v;}
-    else if(inB1&&cs.has(3)){div.className='cell point';div.innerHTML=ntsHTML(cs,[3]);}
-    else if(isOut&&cs.has(3)){PP4E.push({r,c});div.className='cell elim target';div.innerHTML=ntsHTML(cs,[],[3]);div.onclick=()=>tryPP4(r,c);}
-    else div.className='cell empty';
+    else if(isPointer){div.className='cell point';div.innerHTML=ntsHTML(cs,[2]);}
+    else if(isElim){PP4E.push({r,c});div.className='cell elim target';div.innerHTML=ntsHTML(cs,[],[2]);div.onclick=()=>tryPP4(r,c);}
+    else{div.className='cell '+(cs.size>0&&inB1?'annot':'empty');if(cs.size>0&&inB1)div.innerHTML=ntsHTML(cs);}
     brd.appendChild(div);
   }
-  document.getElementById('ex4p').innerHTML=`Digit 3 in Box 1 is locked to Row 2 (orange). All <strong>${PP4E.length} red cells</strong> in Row 2 outside Box 1 must lose digit 3. Tap each one.`;
+  document.getElementById('ex4p').innerHTML=`Digit 2 in Box 1 is locked to Column 3 (orange cells). <strong>${PP4E.length} red cell${PP4E.length!==1?'s':''}</strong> in Col 3 outside Box 1 must lose digit 2. Tap ${PP4E.length===1?'it':'each one'}.`;
   document.getElementById('fb4').className='fb';
   const pr=document.getElementById('prog4');if(pr)pr.textContent=`0 of ${PP4E.length} eliminations`;
 }
@@ -706,7 +711,7 @@ function tryPP4(r,c){
   el.className='cell correct';el.textContent='✕';el.onclick=null;
   pp4hits++;
   const pr=document.getElementById('prog4');if(pr)pr.textContent=`${pp4hits} of ${PP4E.length} eliminations`;
-  showFb('fb4','ok',`✓ R${r+1}C${c+1} loses digit 3. The pointing pair locks digit 3 inside Box 1 Row 2, clearing the rest of Row 2.`);
+  showFb('fb4','ok',`✓ R${r+1}C${c+1} loses digit 2. The pointing pair in Box 1 locks digit 2 inside Column 3, clearing it from everything below.`);
   if(pp4hits>=PP4E.length)setTimeout(()=>complete(4),400);
 }
 
