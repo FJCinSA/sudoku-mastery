@@ -103,7 +103,7 @@ function buildPerfSummary() {
     const acc = accuracy(i);
     const mins = Math.round(ch.timeMs/60000);
     if (!ch.sessions) return null;
-    return `${TECH[i]}: ${ch.completed?'✓':'in progress'}, ${ch.attempts} attempts, ${ch.errors} errors${acc!==null?`, ${acc}% accuracy`:''}${ch.hints?' '+ch.hints+' hints':''}${mins?' ~'+mins+'min':''}`;
+    return `${TECH[i]}: ${ch.completed?'(done)':'in progress'}, ${ch.attempts} attempts, ${ch.errors} errors${acc!==null?`, ${acc}% accuracy`:''}${ch.hints?' '+ch.hints+' hints':''}${mins?' ~'+mins+'min':''}`;
   }).filter(Boolean);
   return lines.length ? lines.join('\n') : 'Brand new learner — no history yet.';
 }
@@ -255,20 +255,20 @@ document.addEventListener('keydown',e=>{
 // AI GRANDMASTER COACH
 // ═══════════════════════════════════════════════════════════════════════
 
-const SYSTEM_PROMPT = `You are Magnus — a Sudoku grandmaster and world-class educator built into the Sudoku Mastery course. You have encyclopaedic knowledge of every Sudoku technique from naked singles to Swordfish and beyond.
+const SYSTEM_PROMPT = `You are Magnus  -  a Sudoku grandmaster and world-class educator built into the Sudoku Mastery course. You have encyclopaedic knowledge of every Sudoku technique from naked singles to Swordfish and beyond.
 
 Your role:
 - Coach learners through the interactive course
 - Answer any Sudoku question with precision and depth
 - Reference their personal performance history to give specific, targeted advice
-- Be direct, insightful, and occasionally witty — like a brilliant coach, not a textbook
+- Be direct, insightful, and occasionally witty  -  like a brilliant coach, not a textbook
 - Use concrete notation (R1C1, Box 3, etc.) when demonstrating techniques
-- When someone is struggling, diagnose WHY — not just what they got wrong
+- When someone is struggling, diagnose WHY  -  not just what they got wrong
 
 You know these techniques deeply: Naked Singles, Hidden Singles, Naked Pairs/Triples, Pointing Pairs/Triples, Box-Line Reduction, X-Wing, Swordfish, XY-Wing, Skyscraper, and more advanced patterns.
 
 Tone: confident, direct, warm when needed. Never condescending. Never vague.
-Length: match the question — short sharp answers for quick questions, detailed for complex ones.`;
+Length: match the question  -  short sharp answers for quick questions, detailed for complex ones.`;
 
 let chatHistory = [];
 let coachOpen = false;
@@ -319,7 +319,7 @@ function sendGreeting(){
   const hasHistory=perf.chapters.some(ch=>ch.sessions>1);
   let greeting;
   if(!hasHistory||sessionNum<=1){
-    greeting=`Welcome to Sudoku Mastery. I'm Magnus — your Sudoku coach. I've watched thousands of learners get stuck at Medium puzzles, and I know exactly why. Ask me anything — techniques, why something didn't work, what to try next. I'm here.`;
+    greeting=`Welcome to Sudoku Mastery. I'm Magnus  -  your Sudoku coach. I've watched thousands of learners get stuck at Medium puzzles, and I know exactly why. Ask me anything  -  techniques, why something didn't work, what to try next. I'm here.`;
   } else {
     const weak=perf.chapters.reduce((w,ch,i)=>{
       if(!ch.completed||!ch.attempts)return w;
@@ -328,7 +328,7 @@ function sendGreeting(){
     },null);
     if(weak!==null){
       const acc=accuracy(weak);
-      greeting=`Good to see you back. Your ${TECH[weak]} accuracy is at ${acc}% — that's the one to crack. What's tripping you up there?`;
+      greeting=`Good to see you back. Your ${TECH[weak]} accuracy is at ${acc}%  -  that's the one to crack. What's tripping you up there?`;
     } else {
       greeting=`Welcome back. You're in ${chName} now. What do you need?`;
     }
@@ -340,7 +340,7 @@ function sendGreeting(){
 async function proactiveCoach(chIdx){
   const ch=perf.chapters[chIdx];
   const techName=TECH[chIdx];
-  const msg=`I see you've hit ${ch.errors} errors on ${techName}. Want me to diagnose what's going wrong? Just ask — or I can walk you through the exact mental model that makes this technique click.`;
+  const msg=`I see you've hit ${ch.errors} errors on ${techName}. Want me to diagnose what's going wrong? Just ask  -  or I can walk you through the exact mental model that makes this technique click.`;
   appendMsg('coach',msg,true);
   chatHistory.push({role:'assistant',content:msg});
   alertCoach();
@@ -361,7 +361,7 @@ async function sendMessage(text){
   const typingEl=showTyping();
 
   // Build full context for the AI
-  const contextMsg=`LEARNER PERFORMANCE PROFILE:\n${buildPerfSummary()}\n\nCURRENT CHAPTER: ${TECH[Math.min(cur,5)]} — ${TECH_DESC[Math.min(cur,5)]}\n\nLEARNER'S QUESTION: ${text}`;
+  const contextMsg=`LEARNER PERFORMANCE PROFILE:\n${buildPerfSummary()}\n\nCURRENT CHAPTER: ${TECH[Math.min(cur,5)]}  -  ${TECH_DESC[Math.min(cur,5)]}\n\nLEARNER'S QUESTION: ${text}`;
 
   // Replace last user message with context-enriched version for API
   const messagesForAPI=[
@@ -553,7 +553,7 @@ function selNS1(r,c){
     const eb=document.getElementById(`b1r${br+dr}c${bc+dc}`);
     if(eb&&!(br+dr===r&&bc+dc===c)&&!eb.classList.contains('correct'))eb.classList.add('hl-box');
   }
-  document.getElementById('ex1p').innerHTML=`<strong>R${r+1}C${c+1} selected.</strong> Row, column and box are highlighted — count what's placed. Only one digit isn't there. Which is it?`;
+  document.getElementById('ex1p').innerHTML=`<strong>R${r+1}C${c+1} selected.</strong> Row, column and box are highlighted  -  count what's placed. Only one digit isn't there. Which is it?`;
   document.getElementById('fb1').className='fb';
 }
 function tryNS1(n){
@@ -565,13 +565,13 @@ function tryNS1(n){
     el.className='cell correct';el.textContent=n;el.onclick=null;
     ns1count++;ns1sel=null;
     for(let i=0;i<9;i++)for(let j=0;j<9;j++){const e=document.getElementById(`b1r${i}c${j}`);if(e)e.classList.remove('hl-row','hl-col','hl-box','sel');}
-    showFb('fb1','ok',`✓ Correct — ${n} is the only digit that fits at R${r+1}C${c+1}.`);
+    showFb('fb1','ok',`(done) Correct  -  ${n} is the only digit that fits at R${r+1}C${c+1}.`);
     document.getElementById('prog1').textContent=`${ns1count} of 4 naked singles placed`;
     if(ns1count===4)setTimeout(()=>complete(1),400);
   }else{
     SND.err();recAttempt(1,false);
     el.classList.add('wrong');setTimeout(()=>el.classList.remove('wrong'),400);
-    showFb('fb1','err',`✗ Not ${n}. Look at what's already in the row, column, and box — eliminate them one by one.`);
+    showFb('fb1','err',`✗ Not ${n}. Look at what's already in the row, column, and box  -  eliminate them one by one.`);
   }
 }
 
@@ -616,7 +616,7 @@ function selHS2(i){
   for(let r=0;r<3;r++)for(let c=6;c<9;c++){const b=document.getElementById(`b2r${r}c${c}`);if(b&&!b.classList.contains('correct'))b.classList.add('step-hi');}
   for(let c=0;c<6;c++)document.getElementById(`b2r${t.r}c${c}`)?.classList.add('hl-row');
   for(let r=3;r<9;r++)document.getElementById(`b2r${r}c${t.c}`)?.classList.add('hl-col');
-  document.getElementById('ex2p').innerHTML=`✓ R${t.r+1}C${t.c+1} selected — it's the only cell in Box 3 that can hold <strong>${t.v}</strong>. Confirm on the numpad.`;
+  document.getElementById('ex2p').innerHTML=`(done) R${t.r+1}C${t.c+1} selected  -  it's the only cell in Box 3 that can hold <strong>${t.v}</strong>. Confirm on the numpad.`;
   showFb('fb2','ok',`R${t.r+1}C${t.c+1} is the hidden single for digit ${t.v}.`);
 }
 function tryHS2(n){
@@ -627,7 +627,7 @@ function tryHS2(n){
     const el=document.getElementById(`b2r${t.r}c${t.c}`);el.className='cell correct';el.textContent=n;el.onclick=null;
     document.querySelectorAll('#board2 .cell').forEach(c=>c.classList.remove('hl-row','hl-col','step-hi','sel'));
     hs2idx++;hs2sel=-1;
-    if(hs2idx<HS2.length){showFb('fb2','ok',`✓ Digit ${n} placed — find the next hidden single.`);renderHS2();}
+    if(hs2idx<HS2.length){showFb('fb2','ok',`(done) Digit ${n} placed  -  find the next hidden single.`);renderHS2();}
     else{showFb('fb2','ok','✓ All three hidden singles found!');setTimeout(()=>complete(2),400);}
   }else{
     SND.err();recAttempt(2,false);
@@ -670,13 +670,13 @@ function tryNP3(n){
   if(np3phase===0){showFb('fb3','err','First tap both blue pair cells on the board.');SND.err();recAttempt(3,false);return;}
   if(n===7||n===9){
     SND.ok();recAttempt(3,true);
-    showFb('fb3','ok',`✓ Correct! {7,9} is locked to R8C4 and R8C6. Every other cell in Row 8 loses both digits.`);
+    showFb('fb3','ok',`(done) Correct! {7,9} is locked to R8C4 and R8C6. Every other cell in Row 8 loses both digits.`);
     document.getElementById(`b3r7c3`).className='cell pair correct';
     document.getElementById(`b3r7c5`).className='cell pair correct';
     setTimeout(()=>complete(3),400);
   }else{
     SND.err();recAttempt(3,false);
-    showFb('fb3','err',`✗ ${n} is not in the pair. Look at R8C4 and R8C6 — they have only two candidates each, and they match.`);
+    showFb('fb3','err',`✗ ${n} is not in the pair. Look at R8C4 and R8C6  -  they have only two candidates each, and they match.`);
   }
 }
 
@@ -711,7 +711,7 @@ function tryPP4(r,c){
   el.className='cell correct';el.textContent='✕';el.onclick=null;
   pp4hits++;
   const pr=document.getElementById('prog4');if(pr)pr.textContent=`${pp4hits} of ${PP4E.length} eliminations`;
-  showFb('fb4','ok',`✓ R${r+1}C${c+1} loses digit 2. The pointing pair in Box 1 locks digit 2 inside Column 3, clearing it from everything below.`);
+  showFb('fb4','ok',`(done) R${r+1}C${c+1} loses digit 2. The pointing pair in Box 1 locks digit 2 inside Column 3, clearing it from everything below.`);
   if(pp4hits>=PP4E.length)setTimeout(()=>complete(4),400);
 }
 
@@ -742,7 +742,7 @@ function tryXW5(r,c){
   el.className='cell correct';el.onclick=null;el.textContent='✕';
   xw5c++;
   const pr=document.getElementById('prog5');if(pr)pr.textContent=`${xw5c} of ${xw5t} confirmed`;
-  showFb('fb5','ok',`✓ R${r+1}C${c+1} loses digit 7. The X-Wing locks 7 to cols ${XWC[0]+1} & ${XWC[1]+1} — cleared everywhere else in those columns.`);
+  showFb('fb5','ok',`(done) R${r+1}C${c+1} loses digit 7. The X-Wing locks 7 to cols ${XWC[0]+1} & ${XWC[1]+1}  -  cleared everywhere else in those columns.`);
   if(xw5c>=xw5t)setTimeout(()=>complete(5),400);
 }
 
