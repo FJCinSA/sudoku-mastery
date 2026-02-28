@@ -756,3 +756,83 @@ function init(){
   go(0);
 }
 init();
+
+function showCompletion() {
+  // Create overlay
+  const ov = document.createElement('div');
+  ov.id = 'completion-overlay';
+  ov.style.cssText = `
+    position:fixed;inset:0;z-index:99999;
+    background:#0e0b07ee;backdrop-filter:blur(12px);
+    display:flex;align-items:center;justify-content:center;
+    animation:fadeIn .6s ease;
+  `;
+  ov.innerHTML = \`
+    <div style="
+      text-align:center;padding:48px 32px;
+      max-width:480px;width:90%;
+      background:#1a1409;border:1px solid #d4a050;
+      border-radius:16px;
+      box-shadow:0 0 80px #d4a05030;
+      animation:scaleIn .5s .2s both ease;
+    ">
+      <div style="font-size:3rem;margin-bottom:16px">🏆</div>
+      <div style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.3em;color:#d4a050;margin-bottom:12px">SUDOKU MASTERY</div>
+      <h2 style="font-family:'Cinzel',serif;font-size:1.8rem;color:#f0c87a;margin-bottom:16px;line-height:1.2">Course Complete!</h2>
+      <p style="color:#8a7a60;font-size:1rem;line-height:1.7;margin-bottom:32px">
+        You have mastered all six techniques - from Naked Singles to X-Wing. You now have the tools to crack any medium or hard Sudoku puzzle.
+      </p>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:32px">
+        <div style="background:#13100a;border:1px solid #3a2e1a;border-radius:8px;padding:16px">
+          <div style="font-size:1.4rem;color:#f0c87a;font-family:'Cinzel',serif">6</div>
+          <div style="font-size:.7rem;color:#8a7a60;margin-top:4px">Techniques</div>
+        </div>
+        <div style="background:#13100a;border:1px solid #3a2e1a;border-radius:8px;padding:16px">
+          <div style="font-size:1.4rem;color:#f0c87a;font-family:'Cinzel',serif" id="comp-correct">-</div>
+          <div style="font-size:.7rem;color:#8a7a60;margin-top:4px">Correct</div>
+        </div>
+        <div style="background:#13100a;border:1px solid #3a2e1a;border-radius:8px;padding:16px">
+          <div style="font-size:1.4rem;color:#f0c87a;font-family:'Cinzel',serif" id="comp-acc">-</div>
+          <div style="font-size:.7rem;color:#8a7a60;margin-top:4px">Accuracy</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <a href="https://fjcinsa.github.io/sudoku-tutor/" style="
+          display:block;padding:14px;border-radius:8px;
+          background:#d4a050;color:#0e0b07;
+          font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.15em;
+          text-decoration:none;font-weight:700;
+        ">PUT IT INTO PRACTICE - PLAY NOW</a>
+        <button onclick="document.getElementById('completion-overlay').remove()" style="
+          padding:12px;border-radius:8px;
+          background:transparent;border:1px solid #3a2e1a;
+          color:#8a7a60;font-family:'Cinzel',serif;font-size:.65rem;
+          letter-spacing:.15em;cursor:pointer;
+        ">REVIEW THE COURSE</button>
+      </div>
+    </div>
+  \`;
+
+  // Fill in stats
+  const perf = loadPerf();
+  let totalCorrect = 0, totalAttempts = 0;
+  Object.values(perf).forEach(p => { totalCorrect += p.correct||0; totalAttempts += p.attempts||0; });
+  document.getElementById && (ov.querySelector('#comp-correct').textContent = totalCorrect);
+  ov.querySelector('#comp-acc').textContent = totalAttempts > 0
+    ? Math.round(totalCorrect/totalAttempts*100) + '%' : '-';
+
+  document.body.appendChild(ov);
+  burst(document.querySelector('#ch5') || document.body);
+}
+
+
+// Inject completion screen styles
+(function(){
+  const s = document.createElement('style');
+  s.textContent = \`
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    @keyframes scaleIn { from{opacity:0;transform:scale(.85)} to{opacity:1;transform:scale(1)} }
+  \`;
+  document.head.appendChild(s);
+})();
+
