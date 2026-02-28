@@ -1,20 +1,33 @@
 #!/usr/bin/env python3
 """
 Sudoku Mastery - Audit Script
-Usage: GITHUB_TOKEN=your_token python3 audit.py
+Create a .env file in the same folder with:
+    GITHUB_TOKEN=ghp_your_token_here
+Then run: python3 audit.py
 """
 import requests, base64, re, copy, os
 
+# Load .env file if present
+env_path = os.path.join(os.path.dirname(__file__), '.env')
+if os.path.exists(env_path):
+    with open(env_path) as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith('#') and '=' in line:
+                key, val = line.split('=', 1)
+                os.environ.setdefault(key.strip(), val.strip())
+
 TOKEN = os.environ.get('GITHUB_TOKEN')
 if not TOKEN:
-    print("Set GITHUB_TOKEN environment variable first.")
-    print("Example: GITHUB_TOKEN=ghp_xxx python3 audit.py")
+    print("ERROR: No token found.")
+    print("Create a .env file containing:")
+    print("  GITHUB_TOKEN=ghp_your_token_here")
     exit(1)
 
 REPO = 'FJCinSA/sudoku-mastery'
 HDR  = {'Authorization': f'token {TOKEN}'}
 
-print("Fetching files...")
+print("Fetching files from GitHub...")
 js   = base64.b64decode(requests.get(f'https://api.github.com/repos/{REPO}/contents/course.js',   headers=HDR).json()['content']).decode()
 html = base64.b64decode(requests.get(f'https://api.github.com/repos/{REPO}/contents/course.html', headers=HDR).json()['content']).decode()
 
