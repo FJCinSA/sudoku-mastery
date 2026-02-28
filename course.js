@@ -235,6 +235,7 @@ function complete(i){
   const b=document.getElementById(`badge${i}`);if(b)b.classList.add('show');
   const nx=document.getElementById(`next${i}`);if(nx)nx.disabled=false;
   updateNav();buildDots();updateProgress();
+  if(i===5)setTimeout(showCompletion,1200);
 }
 
 // ── KEYBOARD ─────────────────────────────────────────────────────────
@@ -802,7 +803,7 @@ function showCompletion() {
           background:#d4a050;color:#0e0b07;
           font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.15em;
           text-decoration:none;font-weight:700;
-        ">PUT IT INTO PRACTICE - PLAY NOW</a>
+        ">PUT IT INTO PRACTICE - PLAY SUDOKULAB TUTOR</a>
         <button onclick="document.getElementById('completion-overlay').remove()" style="
           padding:12px;border-radius:8px;
           background:transparent;border:1px solid #3a2e1a;
