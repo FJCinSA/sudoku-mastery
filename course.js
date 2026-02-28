@@ -776,7 +776,7 @@ function showCompletion() {
       box-shadow:0 0 80px #d4a05030;
       animation:scaleIn .5s .2s both ease;
     ">
-      <div style="font-size:3rem;margin-bottom:16px">🏆</div>
+      <div style="font-size:3rem;margin-bottom:16px"></div>
       <div style="font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.3em;color:#d4a050;margin-bottom:12px">SUDOKU MASTERY</div>
       <h2 style="font-family:'Cinzel',serif;font-size:1.8rem;color:#f0c87a;margin-bottom:16px;line-height:1.2">Course Complete!</h2>
       <p style="color:#8a7a60;font-size:1rem;line-height:1.7;margin-bottom:32px">
