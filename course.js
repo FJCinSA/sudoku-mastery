@@ -197,7 +197,7 @@ function go(idx){
   document.querySelectorAll('.chapter').forEach(el=>el.classList.remove('active'));
   const t=document.getElementById(idx<6?`ch${idx}`:'ch6');if(t)t.classList.add('active');
   cur=Math.min(idx,6);recEnter(cur);
-  updateNav();buildDots();updateProgress();
+  refresh();
   window.scrollTo({top:0,behavior:'smooth'});
   updateCoachContext();
 }
@@ -222,6 +222,7 @@ function buildDots(){
     }
   }
 }
+function refresh(){refresh();}
 function updateProgress(){
   const pct=Math.round(done.filter(Boolean).length/6*100);
   const fill=document.getElementById('prog-fill');if(fill)fill.style.width=pct+'%';
@@ -234,7 +235,7 @@ function complete(i){
   done[i]=true;recComplete(i);SND.win();burst();
   const b=document.getElementById(`badge${i}`);if(b)b.classList.add('show');
   const nx=document.getElementById(`next${i}`);if(nx)nx.disabled=false;
-  updateNav();buildDots();updateProgress();
+  refresh();
   if(i===5)setTimeout(showCompletion,1200);
 }
 
@@ -752,7 +753,7 @@ function tryXW5(r,c){
 function init(){
   loadPerf();
   buildB0();buildB1();buildB2();buildB3();buildB4();buildB5();
-  updateNav();buildDots();updateProgress();
+  refresh();
   initCoachUI();
   go(0);
 }
